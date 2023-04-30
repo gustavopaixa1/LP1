@@ -24,9 +24,10 @@ public class ControleProduto {
                 case 1 -> {
                     System.out.println("Selecione o número do produto que deseja vender: ");
                     int vender = sc.nextInt();
-                    if(produtos[vender]== null){
-                        System.out.println("Esse produto não está cadastrado"); continue;
-                    } else{
+                    if (produtos[vender] == null) {
+                        System.out.println("Esse produto não está cadastrado");
+                        continue;
+                    } else {
                         System.out.println("Quantas unidades você deseja?");
                         int quantidade = sc.nextInt();
                         efetuaVenda(produtos, vender, quantidade);
@@ -42,7 +43,7 @@ public class ControleProduto {
                 case 3 -> {
                     System.out.println("Qual o número do produto que deseja visualizar? (De 0 a 9)");
                     int visualizar = sc.nextInt();
-                    if (produtos[visualizar] == null){
+                    if (produtos[visualizar] == null) {
                         System.out.println("Esse produto ainda não foi cadastrado");
                     } else {
                         System.out.println(produtos[visualizar].toString());
@@ -63,13 +64,13 @@ public class ControleProduto {
 
     }
 
-    public static void efetuaVenda(Produto[] produtos, int vender, int i){
+    public static void efetuaVenda(Produto[] produtos, int vender, int i) {
         int quantidadeOriginal = produtos[vender].getQuantidade();
         produtos[vender].setQuantidade(produtos[vender].getQuantidade() - i);
-        if (produtos[vender].getQuantidade() < 0){
+        if (produtos[vender].getQuantidade() < 0) {
             System.out.println("Não há estoque disponível, é necessário escolher um número menor");
             produtos[vender].setQuantidade(quantidadeOriginal);
-        } else{
+        } else {
             System.out.println("Compra efetuada com sucesso!");
         }
     }
