@@ -62,9 +62,6 @@ public class Validator {
                 if (teste.test(aux))
                     break;
                 throw new Exception();
-            } catch (NoSuchElementException e) {
-                System.out.printf("The input is exhausted.\n\n");
-                break;
             } catch (Exception e) {
                 System.out.printf(err);
                 sc.nextLine();
@@ -98,9 +95,6 @@ public class Validator {
                 if (teste.test(aux))
                     break;
                 throw new Exception();
-            } catch (NoSuchElementException e) {
-                System.out.printf("The input is exhausted.\n\n");
-                break;
             } catch (Exception e) {
                 System.out.printf(err);
                 sc.nextLine();
@@ -134,9 +128,6 @@ public class Validator {
                 if (teste.test(aux))
                     break;
                 throw new Exception();
-            } catch (NoSuchElementException e) {
-                System.out.printf("No line was found.\n\n");
-                break;
             } catch (Exception e) {
                 System.out.printf(err);
             }

@@ -14,8 +14,8 @@ public class Professor extends Pessoa {
         }
     }
 
-    public int getMatricula() {
-        return this.matricula;
+    public String getMatricula() {
+        return String.format("%05d", this.matricula);
     }
 
     public void setDisciplina(String disciplina) {
@@ -24,6 +24,10 @@ public class Professor extends Pessoa {
 
     public String getDisciplina() {
         return this.disciplina;
+    }
+
+    public String getInfo() {
+        return String.format("%s | %s | %s | %s | %s\n", this.nome, this.email, this.telefone, this.matricula, this.disciplina);
     }
 
     // Construtor

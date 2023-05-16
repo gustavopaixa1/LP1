@@ -5,7 +5,7 @@ public abstract class Pessoa {
 
     // Getters e Setters
     public void setNome(String nome) {
-        this.nome = nome;
+        this.nome = String.format("%-15s", nome);
     }
 
     public String getNome() {
@@ -13,7 +13,7 @@ public abstract class Pessoa {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = String.format("%-25s", email);
     }
 
     public String getEmail() {
@@ -47,6 +47,8 @@ public abstract class Pessoa {
         return this.telefone;
     }
 
+    public abstract String getInfo();
+    
     // Construtor
     public Pessoa(String nome, String email, String telefone) {
         setNome(nome);

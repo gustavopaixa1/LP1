@@ -21,7 +21,7 @@ public class EscolaDB {
                         new Professor("Ciro", "Ciro@email.com", "5583987654321", 10012, "Física"),
                         new Professor("Daniel", "Daniel@email.com", "5583987654321", 10013, "Álgebra"),
                         new Professor("Eliane", "Eliane@email.com", "5583987654321", 10014, "Filosofia"),
-                        new Professor("Dani", "Dani@email.com", "5583987654321", 10015, "Programação")
+                        new Professor("Dani", "Dani@email.com", "5583987654321", 1, "Programação")
         };
 
         public Responsavel[] responsaveis = {

@@ -5,13 +5,23 @@ public class Responsavel extends Pessoa {
     private int totalDeAlunos = 0;
     private int alunosCadastrados = 0;
 
-    // Get
+    // Getters
     public int limiteDeAlunos() {
         return this.totalDeAlunos;
     }
 
     public int getAlunosCadastrados() {
         return this.alunosCadastrados;
+    }
+
+    public String getInfo() {
+        return String.format("%s | %s | %s\n", this.nome, this.email, this.telefone);
+    }
+
+    public Aluno getAluno(int indice) {
+        if (0 <= indice && indice < this.alunosCadastrados)
+            return this.alunos[indice];
+        return null;
     }
 
     // Construtor

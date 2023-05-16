@@ -16,8 +16,8 @@ public class Aluno extends Pessoa {
         }
     }
 
-    public int getMatricula() {
-        return this.matricula;
+    public String getMatricula() {
+        return String.format("%05d", this.matricula);
     }
 
     public int limiteDeResponsaveis() {
@@ -26,6 +26,16 @@ public class Aluno extends Pessoa {
 
     public int getResponsaveisCadastrados() {
         return this.responsaveisCadastrados;
+    }
+
+    public String getInfo() {
+        return String.format("%s | %s | %s | %s\n", this.nome, this.email, this.telefone, this.matricula);
+    }
+
+    public Responsavel getResponsavel(int indice) {
+        if (0 <= indice && indice < this.responsaveisCadastrados)
+            return this.responsaveis[indice];
+        return null;
     }
 
     // Construtor
