@@ -1,26 +1,22 @@
-package AgendaSimples.src;
+package agendaSimples.src;
+
+import java.util.ArrayList;
 
 public class Responsavel extends Pessoa {
-    private Aluno[] alunos;
-    private int totalDeAlunos = 0;
-    private int alunosCadastrados = 0;
+    private ArrayList<Aluno> alunos = new ArrayList<Aluno>();
 
     // Getters
-    public int limiteDeAlunos() {
-        return this.totalDeAlunos;
+    public String getInfo() {
+        return String.format("%s | %s | %s\n", this.getNome(), this.getEmail(), this.getTelefone());
     }
 
     public int getAlunosCadastrados() {
-        return this.alunosCadastrados;
-    }
-
-    public String getInfo() {
-        return String.format("%s | %s | %s\n", this.nome, this.email, this.telefone);
+        return this.alunos.size();
     }
 
     public Aluno getAluno(int indice) {
-        if (0 <= indice && indice < this.alunosCadastrados)
-            return this.alunos[indice];
+        if (0 <= indice && indice < this.getAlunosCadastrados())
+            return this.alunos.get(indice);
         return null;
     }
 
@@ -30,17 +26,12 @@ public class Responsavel extends Pessoa {
     }
 
     // Métodos
-    public void setQuantiaDeAlunos(int quantia) {
-        this.alunos = new Aluno[quantia];
-        this.totalDeAlunos = quantia;
-        this.alunosCadastrados = 0;
+    public void addAluno(Aluno aluno) {
+        this.alunos.add(aluno);
     }
 
-    public void addAluno(Aluno aluno) {
-        if (this.alunosCadastrados < this.limiteDeAlunos())
-            this.alunos[this.alunosCadastrados++] = aluno;
-        else
-            System.out.printf("O total de alunos já foi atingido.\n\n");
+    public void remAluno(Aluno aluno) {
+        this.alunos.remove(aluno);
     }
 
     public boolean eAluno(Aluno aluno) {

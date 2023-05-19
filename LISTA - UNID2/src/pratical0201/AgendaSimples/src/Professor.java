@@ -1,4 +1,4 @@
-package AgendaSimples.src;
+package agendaSimples.src;
 
 public class Professor extends Pessoa {
     private int matricula;
@@ -27,7 +27,7 @@ public class Professor extends Pessoa {
     }
 
     public String getInfo() {
-        return String.format("%s | %s | %s | %s | %s\n", this.nome, this.email, this.telefone, this.matricula, this.disciplina);
+        return String.format("%s | %s | %s | %s | %s\n", this.getNome(), this.getEmail(), this.getTelefone(), this.getMatricula(), this.getDisciplina());
     }
 
     // Construtor
