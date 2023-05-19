@@ -1,4 +1,4 @@
-package AgendaSimples.src;
+package agendaSimples.src;
 
 import tools.Validator;
 import java.util.ArrayList;
@@ -16,7 +16,8 @@ public class Escola {
     }
 
     public Escola(boolean usarBancoDeDados) {
-        this.popularComBancoDeDados();
+        if (usarBancoDeDados)
+            this.popularComBancoDeDados();
     }
 
     // Métodos
@@ -119,6 +120,73 @@ public class Escola {
         System.out.printf("\nResponsável cadastrado com sucesso.\n\n");
     }
 
+    public void removerAluno() {
+        if (this.alunos.size() > 0) {
+            int indice = 1;
+            System.out.printf("\nEscolha um aluno para remover:\n");
+            for (int i = 0; i < this.alunos.size(); i++)
+                System.out.printf("%02d - %s\n", i + indice, this.alunos.get(i).getNome());
+            int alunoEscolhido = vd.validateInt("Entre com o Índice do aluno escolhido: ",
+                    "Por favor, digite um índice válido.\n\n",
+                    (n) -> {
+                        return indice <= n && n < this.alunos.size() + indice;
+                    }) - indice;
+
+            Aluno alunoExcluido = this.alunos.get(alunoEscolhido);
+
+            if (alunoExcluido.getResponsaveisCadastrados() > 0)
+                while (alunoExcluido.getResponsaveisCadastrados() > 0)
+                    alunoExcluido.getResponsavel(0).remAluno(alunoExcluido);
+
+            this.alunos.remove(alunoExcluido);
+            alunoExcluido = null;
+            System.out.printf("\nRemoção realizada com sucesso.\n\n");
+        }
+    }
+
+    public void removerProfessor() {
+        if (this.professores.size() > 0) {
+            int indice = 1 + this.alunos.size();
+            System.out.printf("\nEscolha um professor para remover:\n");
+            for (int i = 0; i < this.professores.size(); i++)
+                System.out.printf("%02d - %s\n", i + indice, this.professores.get(i).getNome());
+            int professorEscolhido = vd.validateInt("Entre com o Índice do professor escolhido: ",
+                    "Por favor, digite um índice válido.\n\n",
+                    (n) -> {
+                        return indice <= n && n < this.professores.size() + indice;
+                    }) - indice;
+
+            Professor professorExcluido = this.professores.get(professorEscolhido);
+            this.professores.remove(professorExcluido);
+            professorExcluido = null;
+            System.out.printf("\nRemoção realizada com sucesso.\n\n");
+        }
+    }
+
+    public void removerResponsavel() {
+        if (this.responsaveis.size() > 0) {
+            int indice = 1 + this.alunos.size() + this.professores.size();
+            System.out.printf("\nEscolha um responsável para remover:\n");
+            for (int i = 0; i < this.responsaveis.size(); i++)
+                System.out.printf("%02d - %s\n", i + indice, this.responsaveis.get(i).getNome());
+            int responsavelEscolhido = vd.validateInt("Entre com o Índice do responsável escolhido: ",
+                    "Por favor, digite um índice válido.\n\n",
+                    (n) -> {
+                        return indice <= n && n < this.responsaveis.size() + indice;
+                    }) - indice;
+
+            Responsavel responsavelExcluido = this.responsaveis.get(responsavelEscolhido);
+
+            if (responsavelExcluido.getAlunosCadastrados() > 0)
+                while (responsavelExcluido.getAlunosCadastrados() > 0)
+                    responsavelExcluido.getAluno(0).remResponsavel(responsavelExcluido);
+
+            this.responsaveis.remove(responsavelExcluido);
+            responsavelExcluido = null;
+            System.out.printf("\nRemoção realizada com sucesso.\n\n");
+        }
+    }
+
     public void relacionar() {
         if (this.alunos.size() == 0 || this.responsaveis.size() == 0)
             System.out.printf("\nNão há alunos e/ou responsáveis suficientes.\n\n");
@@ -132,125 +200,104 @@ public class Escola {
                         return 1 <= n && n <= this.alunos.size();
                     }) - 1;
 
-            int acao = vd.validateInt(
-                    "\nEscolha uma opção:\n1 - Redefinir os responsáveis desse aluno ou definir pela primeira vez seu total de responsáveis.\n2 - Adicionar um novo responsável.\n",
-                    "Por favor, digite uma opção válida, '1' ou '2'.\n",
+            System.out.printf(
+                    "\nEscolha um responsável para relacionar: (Os marcados com X já são responsáveis do aluno)\n");
+            for (int i = 0; i < this.responsaveis.size(); i++)
+                if (this.alunos.get(alunoEscolhido).eResponsavel(this.responsaveis.get(i)))
+                    System.out.printf("X - %s\n", this.responsaveis.get(i).getNome());
+                else
+                    System.out.printf("%02d - %s\n", i + 1, this.responsaveis.get(i).getNome());
+            int responsavelEscolhido = vd.validateInt("\nEntre com o Índice do responsável escolhido: ",
+                    "Por favor, digite um índice válido.\n\n",
                     (n) -> {
-                        return n == 1 || n == 2;
-                    });
+                        return 1 <= n && n <= this.responsaveis.size();
+                    }) - 1;
 
-            if (acao == 1)
-                this.alunos.get(alunoEscolhido).setQuantiaDeResponsaveis(vd.validateInt(
-                        "\nEntre com a quantia de responsáveis desse aluno: ",
-                        "Por favor, digite uma quantia válida. Maior que 0.\n",
-                        (n) -> {
-                            return n > 0;
-                        }));
-
-            if (this.alunos.get(alunoEscolhido).limiteDeResponsaveis() <= this.alunos.get(alunoEscolhido)
-                    .getResponsaveisCadastrados())
-                System.out.printf(
-                        "\nO aluno escolhido já chegou a seu máximo de responsáveis e/ou seu total de responsáveis ainda não foi definido.\n\n");
+            if (this.alunos.get(alunoEscolhido).eResponsavel(this.responsaveis.get(responsavelEscolhido)))
+                System.out
+                        .printf("\nRelação não concluída. O aluno e responsáveis escolhidos já são relacionados.\n\n");
             else {
-                System.out.printf(
-                        "\nEscolha um responsável para relacionar: (Os marcados com X já são responsáveis do aluno)\n");
-                for (int i = 0; i < this.responsaveis.size(); i++)
-                    if (this.alunos.get(alunoEscolhido).eResponsavel(this.responsaveis.get(i)))
-                        System.out.printf("X - %s\n", this.responsaveis.get(i).getNome());
-                    else
-                        System.out.printf("%02d - %s\n", i + 1, this.responsaveis.get(i).getNome());
-                int responsavelEscolhido = vd.validateInt("\nEntre com o Índice do responsável escolhido: ",
-                        "Por favor, digite um índice válido.\n\n",
-                        (n) -> {
-                            return 1 <= n && n <= this.responsaveis.size()
-                                    && !this.alunos.get(alunoEscolhido).eResponsavel(this.responsaveis.get(n - 1));
-                        }) - 1;
-
-                acao = vd.validateInt(
-                        "\nEscolha uma opção:\n1 - Redefinir os alunos desse responsável ou definir pela primeira vez seu total de alunos.\n2 - Adicionar um novo aluno.\n",
-                        "Por favor, digite uma opção válida, '1' ou '2'.\n",
-                        (n) -> {
-                            return n == 1 || n == 2;
-                        });
-
-                if (acao == 1) {
-                    this.responsaveis.get(responsavelEscolhido).setQuantiaDeAlunos(vd.validateInt(
-                            "\nEntre com a quantia de alunos desse responsável: ",
-                            "Por favor, digite uma quantia válida. Maior que 0.\n",
-                            (n) -> {
-                                return n > 0;
-                            }));
-                    this.alunos.get(alunoEscolhido).addResponsavel(this.responsaveis.get(responsavelEscolhido));
-                    this.responsaveis.get(responsavelEscolhido).addAluno(this.alunos.get(alunoEscolhido));
-                } else if (this.responsaveis.get(responsavelEscolhido).limiteDeAlunos() > this.responsaveis
-                        .get(responsavelEscolhido).getAlunosCadastrados()) {
-                    this.alunos.get(alunoEscolhido).addResponsavel(this.responsaveis.get(responsavelEscolhido));
-                    this.responsaveis.get(responsavelEscolhido).addAluno(this.alunos.get(alunoEscolhido));
-                } else
-                    System.out.printf(
-                            "\nO responsável escolhido já chegou a seu máximo de alunos e/ou seu total de alunos ainda não foi definido.\n\n");
+                this.alunos.get(alunoEscolhido).addResponsavel(this.responsaveis.get(responsavelEscolhido));
+                this.responsaveis.get(responsavelEscolhido).addAluno(this.alunos.get(alunoEscolhido));
+                System.out.printf("\nRelação realizada com sucesso.\n\n");
             }
         }
     }
 
     public String listaDePessoas() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(listaDeAlunos());
-        sb.append(listaDeProfessores());
-        sb.append(listaDeResponsaveis());
+        if (this.alunos.size() == 0 && this.professores.size() == 0 && this.responsaveis.size() == 0)
+            return "\nNão há pessoas cadastradas.\n";
+        else {
+            StringBuilder sb = new StringBuilder();
+            sb.append(listaDeAlunos());
+            sb.append(listaDeProfessores());
+            sb.append(listaDeResponsaveis());
 
-        return sb.toString();
+            return sb.toString();
+        }
     }
 
     public String listaDeAlunos() {
-        StringBuilder sb = new StringBuilder();
-        int indice = 1, i;
+        if (this.alunos.size() == 0)
+            return "\nNão há alunos cadastrados.\n";
+        else {
+            StringBuilder sb = new StringBuilder();
+            int indice = 1, i;
 
-        sb.append("\nAlunos:\n");
-        for (i = 0; i < this.alunos.size(); i++) {
-            Aluno aux = this.alunos.get(i);
-            sb.append(i + indice).append(" - ")
-                    .append(aux.getNome()).append(" | ")
-                    .append(aux.getEmail()).append(" | ")
-                    .append(aux.getTelefone()).append(" | ")
-                    .append(aux.getMatricula()).append("\n");
+            sb.append("\nAlunos:\n");
+            for (i = 0; i < this.alunos.size(); i++) {
+                Aluno aux = this.alunos.get(i);
+                sb.append(i + indice).append(" - ")
+                        .append(aux.getNome()).append(" | ")
+                        .append(aux.getEmail()).append(" | ")
+                        .append(aux.getTelefone()).append(" | ")
+                        .append(aux.getMatricula()).append("\n");
+            }
+
+            return sb.toString();
         }
-
-        return sb.toString();
     }
 
     public String listaDeProfessores() {
-        StringBuilder sb = new StringBuilder();
-        int indice = 1 + this.alunos.size();
+        if (this.professores.size() == 0)
+            return "\nNão há professores cadastrados.\n";
+        else {
+            StringBuilder sb = new StringBuilder();
+            int indice = 1 + this.alunos.size();
 
-        sb.append("\nProfessores:\n");
-        for (int i = 0; i < this.professores.size(); i++) {
-            Professor aux = this.professores.get(i);
-            sb.append(i + indice).append(" - ")
-                    .append(aux.getNome()).append(" | ")
-                    .append(aux.getEmail()).append(" | ")
-                    .append(aux.getTelefone()).append(" | ")
-                    .append(aux.getMatricula()).append(" | ")
-                    .append(aux.getDisciplina()).append("\n");
+            sb.append("\nProfessores:\n");
+            for (int i = 0; i < this.professores.size(); i++) {
+                Professor aux = this.professores.get(i);
+                sb.append(i + indice).append(" - ")
+                        .append(aux.getNome()).append(" | ")
+                        .append(aux.getEmail()).append(" | ")
+                        .append(aux.getTelefone()).append(" | ")
+                        .append(aux.getMatricula()).append(" | ")
+                        .append(aux.getDisciplina()).append("\n");
+            }
+
+            return sb.toString();
         }
-
-        return sb.toString();
     }
 
     public String listaDeResponsaveis() {
-        StringBuilder sb = new StringBuilder();
-        int indice = 1 + this.alunos.size() + this.professores.size();
+        if (this.responsaveis.size() == 0)
+            return "\nNão há responsáveis cadastrados.\n";
+        else {
+            StringBuilder sb = new StringBuilder();
+            int indice = 1 + this.alunos.size() + this.professores.size();
 
-        sb.append("\nResponsáveis:\n");
-        for (int i = 0; i < this.responsaveis.size(); i++) {
-            Responsavel aux = this.responsaveis.get(i);
-            sb.append(i + indice).append(" - ")
-                    .append(aux.getNome()).append(" | ")
-                    .append(aux.getEmail()).append(" | ")
-                    .append(aux.getTelefone()).append("\n");
+            sb.append("\nResponsáveis:\n");
+            for (int i = 0; i < this.responsaveis.size(); i++) {
+                Responsavel aux = this.responsaveis.get(i);
+                sb.append(i + indice).append(" - ")
+                        .append(aux.getNome()).append(" | ")
+                        .append(aux.getEmail()).append(" | ")
+                        .append(aux.getTelefone()).append("\n");
+            }
+
+            return sb.toString();
         }
-
-        return sb.toString();
     }
 
     public void buscarNome() {
@@ -330,10 +377,10 @@ public class Escola {
             pessoaBuscada = this.responsaveis.get(ID - 1 - quantiaDeAlunos - quantiaDeProfessores);
             tipoDePessoa = "responsavel";
         }
-        
+
         System.out.printf("As informações da pessoa encontrada são estas:\n");
         System.out.printf(pessoaBuscada.getInfo());
-        
+
         if (tipoDePessoa.equals("aluno")) {
             if (((Aluno) pessoaBuscada).getResponsaveisCadastrados() > 0) {
                 Aluno alunoEncontrado = (Aluno) pessoaBuscada;

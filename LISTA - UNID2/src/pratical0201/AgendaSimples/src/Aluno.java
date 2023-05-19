@@ -1,9 +1,9 @@
-package AgendaSimples.src;
+package agendaSimples.src;
+
+import java.util.ArrayList;
 
 public class Aluno extends Pessoa {
-    private Responsavel[] responsaveis;
-    private int totalDeResponsaveis = 0;
-    private int responsaveisCadastrados = 0;
+    private ArrayList<Responsavel> responsaveis = new ArrayList<Responsavel>();
     private int matricula;
 
     // Getters e Setters
@@ -20,21 +20,17 @@ public class Aluno extends Pessoa {
         return String.format("%05d", this.matricula);
     }
 
-    public int limiteDeResponsaveis() {
-        return this.totalDeResponsaveis;
+    public String getInfo() {
+        return String.format("%s | %s | %s | %s\n", this.getNome(), this.getEmail(), this.getTelefone(), this.getMatricula());
     }
 
     public int getResponsaveisCadastrados() {
-        return this.responsaveisCadastrados;
-    }
-
-    public String getInfo() {
-        return String.format("%s | %s | %s | %s\n", this.nome, this.email, this.telefone, this.matricula);
+        return this.responsaveis.size();
     }
 
     public Responsavel getResponsavel(int indice) {
-        if (0 <= indice && indice < this.responsaveisCadastrados)
-            return this.responsaveis[indice];
+        if (0 <= indice && indice < this.getResponsaveisCadastrados())
+            return this.responsaveis.get(indice);
         return null;
     }
 
@@ -45,17 +41,12 @@ public class Aluno extends Pessoa {
     }
 
     // Métodos
-    public void setQuantiaDeResponsaveis(int quantia) {
-        this.responsaveis = new Responsavel[quantia];
-        this.totalDeResponsaveis = quantia;
-        this.responsaveisCadastrados = 0;
+    public void addResponsavel(Responsavel responsavel) {
+        this.responsaveis.add(responsavel);
     }
 
-    public void addResponsavel(Responsavel responsavel) {
-        if (this.responsaveisCadastrados < this.limiteDeResponsaveis())
-            this.responsaveis[this.responsaveisCadastrados++] = responsavel;
-        else
-            System.out.printf("O total de responsáveis já foi atingido.\n\n");
+    public void remResponsavel(Responsavel responsavel) {
+        this.responsaveis.remove(responsavel);
     }
 
     public boolean eResponsavel(Responsavel responsavel) {
