@@ -6,17 +6,18 @@ import pratical0203.classes.Televisao;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class main {
+public class ControlarTelevisao {
     public static void main(String[] args) {
 
         Televisao tv = new Televisao();
         ControleRemoto controle = new ControleRemoto();
         Scanner sc = new Scanner(System.in);
+        boolean executar = true;
 
 
         System.out.println("Controle Remoto ");
 
-        while (true) {
+        while (executar) {
             try {
                 System.out.println("1. Aumentar volume ");
                 System.out.println("2. Diminuir volume ");
@@ -24,6 +25,7 @@ public class main {
                 System.out.println("4. Diminuir Canal ");
                 System.out.println("5. Ir para o Canal ");
                 System.out.println("6. Mostrar informações ");
+                System.out.println("0. Sair");
                 System.out.print("Selecione uma opção: ");
 
 
@@ -40,6 +42,7 @@ public class main {
                         controle.alterarCanal(tv, canal);
                     }
                     case 6 -> controle.mostraInfo(tv);
+                    case 0 -> executar = false;
                     default -> System.out.println("Por favor, digitar apenas números entre 1 a 6\n");
                 }
             } catch (InputMismatchException error) {
@@ -47,5 +50,7 @@ public class main {
                 sc.nextLine();
             }
         }
+        System.out.println("Programa encerrado!");
+        sc.close();
     }
 }

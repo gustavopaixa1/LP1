@@ -1,8 +1,8 @@
 package pratical0203.classes;
 
 public class Televisao {
-    int canal = 1;
-    int volume = 10;
+    private int canal = 1;
+    private int volume = 10;
 
     public Televisao() {
     }
@@ -28,11 +28,9 @@ public class Televisao {
         this.volume = volume;
     }
 
-    @Override
-    public String toString() {
-        return "Televisao{" +
-                "canal=" + canal +
-                ", volume=" + volume +
-                '}';
+    public void MostraInfo() {
+        System.out.println("\n--- Informações ---");
+        System.out.println("Canal: " + getCanal());
+        System.out.println("Volume: " + getVolume() + "\n");
     }
 }

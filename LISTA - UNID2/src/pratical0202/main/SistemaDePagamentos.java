@@ -6,8 +6,9 @@ import pratical0202.classes.TransferenciaBancaria;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.Arrays;
 
-public class Main {
+public class SistemaDePagamentos {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
@@ -21,7 +22,12 @@ public class Main {
             try {
                 System.out.println("-- Sistema de Pagamentos Integrado --");
                 System.out.println("Digite o valor do pagamento, com vírgula: ");
-                Float valor = sc.nextFloat();
+                float valor = sc.nextFloat();
+
+                if (valor <= 0) {
+                    System.out.println("Por favor, digitar apenas valores maiores que 1. ");
+                    continue;
+                }
                 sc.nextLine();
 
                 System.out.println("Selecione a forma de pagamento: ");
@@ -35,29 +41,42 @@ public class Main {
                 sc.nextLine();
 
                 switch (opt) {
-                    case 1: {
-                        cartao.mostrarParcelas(valor);
+                    case 1:
                         cartao.realizarPagamento(valor);
+                        cartao.gerarRecibo(valor);
                         break;
-                    }
 
-                    case 2: {
+                    case 2:
                         transf.realizarPagamento(valor);
+                        transf.gerarRecibo(valor);
                         break;
-                    }
 
-                    case 3:{
-                        boleto.realizarPagamento(valor);
-                        boleto.gerarRecibo(valor);
+                    case 3:
+                        boleto.gerarBoleto(valor);
+                        char c = sc.nextLine().charAt(0);
+
+                        c = Character.toLowerCase(c);
+
+                        if (c == 's') {
+                            boleto.realizarPagamento(valor);
+                            boleto.gerarRecibo(valor);
+                        } else if (c == 'n') {
+                            System.out.println("Pagamento não realizado");
+                            break;
+                        } else {
+                            System.out.println("Caracter inválido, voltando ao menu.");
+                            break;
+                        }
+
                         break;
-                    }
 
                     case 4:
-                        continue;
+                        break;
 
-                    case 0: {
-                        executar = false; break;
-                    }
+                    case 0:
+                        executar = false;
+                        break;
+
 
                     default:
                         System.out.println("Por favor, selecionar uma opção de 1 a 4");
