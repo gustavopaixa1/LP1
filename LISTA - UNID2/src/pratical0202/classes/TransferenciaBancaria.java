@@ -1,17 +1,12 @@
 package pratical0202.classes;
 
-import java.util.Scanner;
-
 public class TransferenciaBancaria implements Pagamentos {
-
-    public void realizarPagamento(float valor) {
+    public void realizarPagamento() {
         System.out.println("Realizando transferência...");
         System.out.println(".");
         System.out.println(".");
         System.out.println("Transferência realizada!\n ");
-
     }
-
 
     public void gerarRecibo(float valor) {
         System.out.printf("------ RECIBO ------\n");

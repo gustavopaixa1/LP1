@@ -1,3 +1,9 @@
+/*
+ * Exercício 03 - ControlarTelevisao
+ * Aluno: Luiz Gustavo Paixão da Gama - Matrícula: 20220005834
+ * Aluno: Lucas Rondineli Lucena Fragoso - Matrícula: 20220005932
+ */
+
 package pratical0203.main;
 
 import pratical0203.classes.ControleRemoto;
@@ -12,12 +18,10 @@ public class ControlarTelevisao {
         Televisao tv = new Televisao();
         ControleRemoto controle = new ControleRemoto();
         Scanner sc = new Scanner(System.in);
-        boolean executar = true;
-
 
         System.out.println("Controle Remoto ");
 
-        while (executar) {
+        while (true) {
             try {
                 System.out.println("1. Aumentar volume ");
                 System.out.println("2. Diminuir volume ");
@@ -28,9 +32,12 @@ public class ControlarTelevisao {
                 System.out.println("0. Sair");
                 System.out.print("Selecione uma opção: ");
 
-
                 int opt = sc.nextInt();
                 sc.nextLine();
+
+                if (opt == 0)
+                    break;
+
                 switch (opt) {
                     case 1 -> controle.aumentarVolume(tv);
                     case 2 -> controle.diminuirVolume(tv);
@@ -42,7 +49,6 @@ public class ControlarTelevisao {
                         controle.alterarCanal(tv, canal);
                     }
                     case 6 -> controle.mostraInfo(tv);
-                    case 0 -> executar = false;
                     default -> System.out.println("Por favor, digitar apenas números entre 1 a 6\n");
                 }
             } catch (InputMismatchException error) {

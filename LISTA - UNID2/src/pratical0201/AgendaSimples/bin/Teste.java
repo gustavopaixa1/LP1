@@ -1,3 +1,9 @@
+/*
+ * Exercício 01 - AgendaSimples
+ * Aluno: Luiz Gustavo Paixão da Gama - Matrícula: 20220005834
+ * Aluno: Lucas Rondineli Lucena Fragoso - Matrícula: 20220005932
+ */
+
 package agendaSimples.bin;
 
 import agendaSimples.src.Escola;
