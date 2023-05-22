@@ -1,6 +1,6 @@
 package pratical0202.classes;
 
 public interface Pagamentos {
-    void realizarPagamento(float valor);
+    void realizarPagamento();
     void gerarRecibo(float valor);
 }

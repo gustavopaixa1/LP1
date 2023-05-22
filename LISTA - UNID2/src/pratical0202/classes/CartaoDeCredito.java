@@ -1,16 +1,12 @@
 package pratical0202.classes;
 
-import java.util.Scanner;
-
 public class CartaoDeCredito implements Pagamentos {
-
-    public void realizarPagamento(float valor) {
+    public void realizarPagamento() {
         System.out.println("Realizando pagamento com cartão de crédito...");
         System.out.println(".");
         System.out.println(".");
         System.out.println("Pagamento realizado! \n");
     }
-
 
     public void gerarRecibo(float valor) {
         System.out.printf("------ RECIBO ------\n");

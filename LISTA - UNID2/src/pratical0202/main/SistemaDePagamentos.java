@@ -1,3 +1,9 @@
+/*
+ * Exercício 02 - SistemaDePagamentos
+ * Aluno: Luiz Gustavo Paixão da Gama - Matrícula: 20220005834
+ * Aluno: Lucas Rondineli Lucena Fragoso - Matrícula: 20220005932
+ */
+
 package pratical0202.main;
 
 import pratical0202.classes.BoletoBancario;
@@ -6,26 +12,22 @@ import pratical0202.classes.TransferenciaBancaria;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.Arrays;
 
 public class SistemaDePagamentos {
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(System.in);
         BoletoBancario boleto = new BoletoBancario();
         CartaoDeCredito cartao = new CartaoDeCredito();
         TransferenciaBancaria transf = new TransferenciaBancaria();
 
-        boolean executar = true;
-
-        while (executar) {
+        while (true) {
             try {
                 System.out.println("-- Sistema de Pagamentos Integrado --");
                 System.out.println("Digite o valor do pagamento, com vírgula: ");
                 float valor = sc.nextFloat();
 
                 if (valor <= 0) {
-                    System.out.println("Por favor, digitar apenas valores maiores que 1. ");
+                    System.out.println("Por favor, digitar apenas valores maiores que 0. ");
                     continue;
                 }
                 sc.nextLine();
@@ -40,14 +42,17 @@ public class SistemaDePagamentos {
                 int opt = sc.nextInt();
                 sc.nextLine();
 
+                if (opt == 0)
+                    break;
+
                 switch (opt) {
                     case 1:
-                        cartao.realizarPagamento(valor);
+                        cartao.realizarPagamento();
                         cartao.gerarRecibo(valor);
                         break;
 
                     case 2:
-                        transf.realizarPagamento(valor);
+                        transf.realizarPagamento();
                         transf.gerarRecibo(valor);
                         break;
 
@@ -58,7 +63,7 @@ public class SistemaDePagamentos {
                         c = Character.toLowerCase(c);
 
                         if (c == 's') {
-                            boleto.realizarPagamento(valor);
+                            boleto.realizarPagamento();
                             boleto.gerarRecibo(valor);
                         } else if (c == 'n') {
                             System.out.println("Pagamento não realizado");
@@ -67,26 +72,20 @@ public class SistemaDePagamentos {
                             System.out.println("Caracter inválido, voltando ao menu.");
                             break;
                         }
-
                         break;
 
                     case 4:
                         break;
 
-                    case 0:
-                        executar = false;
-                        break;
-
-
                     default:
-                        System.out.println("Por favor, selecionar uma opção de 1 a 4");
+                        System.out.println("Por favor, selecionar uma opção de 0 a 4");
                 }
             } catch (InputMismatchException error) {
                 System.out.println("Por favor, digitar apenas números.\n");
                 sc.nextLine();
             }
-
         }
+
         System.out.println("Programa encerrado.");
         sc.close();
     }
